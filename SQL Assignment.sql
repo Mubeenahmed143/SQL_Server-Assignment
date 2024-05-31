@@ -122,6 +122,45 @@ SELECT * FROM Employee WHERE Salary > (SELECT AVG(Salary) FROM Employee);
 SELECT * FROM Employee WHERE EmpName LIKE 'A%' ;
 
 --Question no 24--
-SELECT * FROM Employee WHERE DATEDIFF(YEAR, Date_Of_Birth, GETDATE()) <= 35;
+SELECT * FROM Employee WHERE DATEDIFF(YEAR, Date_Of_Birth, GETDATE()) <= 34 ORDER BY Date_Of_Birth;
 
+--Question no 25 (some changes)--
+SELECT * FROM Employee WHERE HireDate LIKE '2024%' OR HireDate LIKE '2022%';
 
+--Question no 26--
+SELECT * FROM Employee WHERE Gender = 'Female';
+
+--Question no 27--
+SELECT * FROM Employee WHERE Gender = 'Female' AND Salary >= 65000;
+
+--Question no 28--
+SELECT * FROM Employee WHERE Designation != 'HR Manager' AND Designation != 'Sales Executive' ;
+
+--Question no 29--
+SELECT * FROM Employee WHERE LEN(EmpName) >= 5 AND LEN(EmpName) <= 10;
+
+--Question no 30--
+UPDATE Employee SET Salary = Salary + (Salary * 10/100) WHERE Salary <= 62000;
+
+--Question no 31--
+UPDATE Employee SET Salary = Salary + (Salary * 5/100) WHERE DeptID = 20;
+
+--Question no 32--
+UPDATE Employee
+SET Salary = CASE
+    WHEN Salary < 65000 THEN Salary * 5/100
+    WHEN Salary BETWEEN 65000 AND 70000 THEN Salary * 10/100
+    WHEN Salary > 70000 THEN Salary * 15/100
+END;
+
+--Question no 33--
+SELECT *, 
+       HireDate, 
+       DATEDIFF(YEAR, HireDate, GETDATE()) AS Experience_Years,
+       CASE
+           WHEN DATEDIFF(YEAR, HireDate, GETDATE()) < 1 THEN 0
+           WHEN DATEDIFF(YEAR, HireDate, GETDATE()) BETWEEN 1 AND 3 THEN 100
+           WHEN DATEDIFF(YEAR, HireDate, GETDATE()) BETWEEN 3 AND 5 THEN 200
+           ELSE 0 
+       END AS Bonus_Shares
+FROM Employee;
